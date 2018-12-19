@@ -1,4 +1,4 @@
-# ![RealWorld Example App](imba.svg)
+# ![Imba](imba.svg) RealWorld example app
 
 
 [![RealWorld Frontend](https://img.shields.io/badge/realworld-frontend-%23783578.svg)](http://realworld.io)
@@ -22,5 +22,5 @@ To get the frontend running locally:
 
 - Clone this repo
 - `npm install` to install all req'd dependencies
-- `npm start` to start the local server (this project uses create-react-app)
+- `npm run dev` to start the local server
 
