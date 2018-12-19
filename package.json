@@ -1,0 +1,28 @@
+{
+  "name": "imba-realworld-example-app",
+  "description": "RealWorld app conduit for Imba",
+  "keywords": [
+    "imba"
+  ],
+  "author": "Alexandre Carton",
+  "bugs": "https://github.com/cartonalexandre/imba-realworld-example-app/issues",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "scripts": {
+    "dev": "webpack-dev-server --content-base dist/",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cartonalexandre/imba-realworld-example-app.git"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "imba": "^1.4.0",
+    "imba-router": "^0.2.0",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1"
+  }
+}
