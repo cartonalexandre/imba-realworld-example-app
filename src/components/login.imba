@@ -7,8 +7,8 @@ export tag Login < Page
 		var user = User.new();
 		user.email = @email
 		user.password = @password
-		user = await postResource("users/login", user)
-		window:localStorage.setItem('user-conduit', JSON.stringify(user:user))
+		user = await postResource("users/login", user, @headers)
+		window:localStorage.setItem('user-conduit', JSON.stringify(user:user)) if user:user != @user
 		window:location:href = "/"
 		self
 	def render

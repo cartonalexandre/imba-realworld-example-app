@@ -8,6 +8,7 @@ export tag Articles
 	prop src
 	prop currentTag
 	prop params
+	prop headers
 	let limit = 10
 	let offset
 	let pages = []
@@ -17,7 +18,7 @@ export tag Articles
 		for param in params
 			if Object.values(param)[0] != undefined
 				resource += "&" + Object.keys(param)[0] + "=" + Object.values(param)[0]
-		var data = await loadResource resource
+		var data = await loadResource(resource, @headers)
 		@articles = data:articles
 		@articlesCount = data:articlesCount
 		pages = []

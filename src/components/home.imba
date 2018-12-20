@@ -5,15 +5,25 @@ import { loadResource, formatDate } from './util'
 export tag Home < Page
 	prop tags
 	prop currentTag
+	prop currentFeed
 	def load
 		var data = await loadResource "tags"
 		@tags = data:tags
-	def selectTag item
-		@currentTag = item
-	def resetFeed
-		delete @currentTag
+	def selectFeed current, param
+		@currentFeed = current
+		if (current == "tag")
+			@currentTag = param
 	def articles
-		<Articles src="articles" params=[{"tag": currentTag}]>
+		let params, headers
+		let src = "articles"
+		if @currentFeed == "tag"
+			params = [{"tag": currentTag}]
+		if @currentFeed == "your"
+			src = "articles/feed"
+			headers = @headers
+		<Articles src=src params=params headers=headers>
+	def mount
+		@currentFeed = "global"
 	def render
 		<self.vbox>
 			<div .home-page>
@@ -27,11 +37,12 @@ export tag Home < Page
 						<div .col-md-9>
 							<div .feed-toggle>
 								<ul .nav .nav-pills .outline-active>
-									<li .nav-item css:display='none'>
-										<a href="" .nav-link> "Your Feed"
+									if @currentUser
+										<li .nav-item>
+											<a href="#" :click.selectFeed("your") .nav-link .active=(currentFeed == "your")> "Your Feed"
 									<li .nav-item>
-										<a href="#" :click.resetFeed() .nav-link .active=(currentTag == undefined)> "Global Feed"
-									if currentTag
+										<a href="#" :click.selectFeed("global") .nav-link .active=(currentFeed == "global")> "Global Feed"
+									if currentFeed == "tag"
 										<li .nav-item>
 											<a href="#" .nav-link .active> "#" + currentTag
 							articles
@@ -39,4 +50,4 @@ export tag Home < Page
 							<div .sidebar>
 								<p> "Popular Tags"
 								<div .tag-list> for item in tags
-									<a href="#" .tag-default .tag-pill :click.selectTag(item)> item										
+									<a href="#" .tag-default .tag-pill :click.selectFeed("tag", item)> item										
