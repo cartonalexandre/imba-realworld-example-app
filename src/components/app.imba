@@ -5,8 +5,13 @@ import {Login} from './login'
 import {Register} from './register'
 import {Article} from './article'
 import {Profile} from './profile'
+import {User} from '../models/user'
+import {Settings} from './settings'
+import {Shared} from './shared'
+import {Editor} from './editor'
+import { encode } from './util'
 
-export tag App
+export tag App < Shared
 	def render
 		<self>
 			<header>
@@ -16,29 +21,30 @@ export tag App
 						<ul .nav .navbar-nav .pull-xs-right css:display='inherit'>
 							<li .nav-item>
 								<a .nav-link .active route-to='/'> 'Home'
-							<li .nav-item>
-								<a .nav-link route-to='/login'> 'Sign in'
-							<li .nav-item>
-								<a .nav-link route-to='/register'> 'Sign up'
-						<ul .nav .navbar-nav .pull-xs-right css:display='none'>
-							<li .nav-item>
-								<a .nav-link .active route-to=''> 'Home'
-							<li .nav-item>
-								<a .nav-link route-to='/editor'>
-									<i .ion-compose>
-									'New Article'
-							<li .nav-item>
-								<a .nav-link route-to='/settings'>
-									<i .ion-gear-a>
-									'Settings'
-							<li .nav-item>
-								<a .nav-link>
-									<img .user-pic>
+							if !@currentUser
+								<li .nav-item>
+									<a .nav-link route-to='/login'> 'Sign in'
+								<li .nav-item>
+									<a .nav-link route-to='/register'> 'Sign up'
+							else
+								<li .nav-item>
+									<a .nav-link route-to='/editor'>
+										<i .ion-compose>
+										' New Article'
+								<li .nav-item>
+									<a .nav-link route-to='/settings'>
+										<i .ion-gear-a>
+										' Settings'
+								<li .nav-item>
+									<a .nav-link route-to="/profile/"+encode(currentUser:username)> currentUser:username
+									<img .user-pic> 
 			<Home route="/">
 			<Login route="/login">
 			<Register route="/register">
 			<Article route="/article/:slug">
 			<Profile route="/profile/:username">
+			<Settings route="/settings">
+			<Editor route="/editor">
 			<footer>
 				<div .container>
 					<a route-to='/' .logo-font> "conduit"

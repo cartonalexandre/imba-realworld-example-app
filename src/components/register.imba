@@ -1,6 +1,17 @@
 import {Page} from './page'
+import {User} from '../models/user'
+import { loadResource, formatDate, encode, postResource } from './util'
 
 export tag Register < Page
+	def register
+		var user = User.new();
+		user.username = @username
+		user.email = @email
+		user.password = @password
+		user = await postResource("users", user, @headers)
+		window:localStorage.setItem('user-conduit',JSON.stringify(user:user)) if user:user != @user
+		window:location:href = "/"
+		self
 	def render
 		<self>
 			<div .container .page>
@@ -9,12 +20,12 @@ export tag Register < Page
 						<h1 .text-xs-center> "Sign up"
 						<p .text-xs-center>
 							<a route-to='/login'> "Have an account?"
-						<form>
+						<form :submit.prevent.register>
 							<fieldset>
 								<fieldset .form-group>
-									<input .form-control .form-control-lg type="text" placeholder="Username">
+									<input[@username] .form-control .form-control-lg type="text" placeholder="Username">
 								<fieldset .form-group>
-									<input .form-control .form-control-lg type="email" placeholder="Email">
+									<input[@email] .form-control .form-control-lg type="email" placeholder="Email">
 								<fieldset .form-group>
-									<input .form-control .form-control-lg type="password" placeholder="Password">
+									<input[@password] .form-control .form-control-lg type="password" placeholder="Password">
 								<button .btn .btn-lg .btn-primary .pull-xs-right type="submit"> "Sign up"

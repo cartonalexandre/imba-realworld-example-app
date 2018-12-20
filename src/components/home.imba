@@ -1,7 +1,8 @@
 import {Articles} from './articles'
+import {Page} from './page'
 import { loadResource, formatDate } from './util'
 
-export tag Home
+export tag Home < Page
 	prop tags
 	prop currentTag
 	def load
@@ -16,10 +17,11 @@ export tag Home
 	def render
 		<self.vbox>
 			<div .home-page>
-				<div .banner>
-					<div .container>
-						<h1 .logo-font> "conduit"
-						<p> "A place to share your knowledge."
+				if !@currentUser
+					<div .banner>
+						<div .container>
+							<h1 .logo-font> "conduit"
+							<p> "A place to share your knowledge."
 				<div .container .page>
 					<div .row>
 						<div .col-md-9>
