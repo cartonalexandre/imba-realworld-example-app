@@ -21,13 +21,16 @@ export tag Profile < Page
 								<img .user-img src=profile:image>
 								<h4> profile:username
 								<p> profile:bio
-								<button .btn .btn-sm .action-btn .btn-outline-secondary>
-									<i .ion-plus-round>
-									"   "
-									"Follow " + profile:username
-								<a .btn .btn-sm .btn-outline-secondary .action-btn css:display='none'>
-									<i .ion-gear-a>
-									"Edit Profile Settings"
+								if !@currentUser or @currentUser:username !== username
+									<button .btn .btn-sm .action-btn .btn-outline-secondary>
+										<i .ion-plus-round>
+										"   "
+										"Follow " + profile:username
+								if @currentUser and @currentUser:username === username
+									<a .btn .btn-sm .btn-outline-secondary .action-btn route-to='/settings'>
+										<i .ion-gear-a>
+										"   "
+										"Edit Profile Settings"
 				<div .container>
 					<div .row>
 						<div .col-xs-12 .col-md-10 .offset-md-1>

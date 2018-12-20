@@ -28,6 +28,14 @@ export def putResource resource, data, headers
 		)
 	return res.json
 
+export def deleteResource resource, headers
+	var res = await window.fetch(URL_ENDPOINT+resource, {
+				method: 'delete',
+				headers: headers
+			}
+		)
+	return res.json
+
 export def formatDate inputDate
 	var options = { year: 'numeric', month: 'long', day: 'numeric' };
 	var aDate = Date.new(inputDate);

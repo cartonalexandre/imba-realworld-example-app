@@ -28,7 +28,7 @@ export tag App < Shared
 									<a .nav-link route-to='/register'> 'Sign up'
 							else
 								<li .nav-item>
-									<a .nav-link route-to='/editor'>
+									<a .nav-link route-to='/editor/new'>
 										<i .ion-compose>
 										' New Article'
 								<li .nav-item>
@@ -44,7 +44,7 @@ export tag App < Shared
 			<Article route="/article/:slug">
 			<Profile route="/profile/:username">
 			<Settings route="/settings">
-			<Editor route="/editor">
+			<Editor route="/editor/:slug">
 			<footer>
 				<div .container>
 					<a route-to='/' .logo-font> "conduit"

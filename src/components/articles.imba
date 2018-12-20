@@ -14,7 +14,7 @@ export tag Articles
 	let pages = []
 	let currentPage = 1
 	def loadArticles
-		let resource = @src + "?limit=" + limit + "&offset=" + offset
+		let resource = @src + "?limit=" + limit + "&offset=" + offset or 0
 		for param in params
 			if Object.values(param)[0] != undefined
 				resource += "&" + Object.keys(param)[0] + "=" + Object.values(param)[0]
@@ -31,10 +31,6 @@ export tag Articles
 	def changePage expectedPage
 		offset = (expectedPage - 1) * limit
 		currentPage = expectedPage
-	def resetValue
-		delete @tag
-		currentPage = 1
-		offset = 0
 	def setup
 		loadArticles
 	def render
