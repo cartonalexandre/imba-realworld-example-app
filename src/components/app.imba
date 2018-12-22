@@ -18,7 +18,7 @@ export tag App < Shared
 				<nav .navbar .navbar-light>
 					<div .container>
 						<a .navbar-brand route-to='/'> 'conduit'
-						<ul .nav .navbar-nav .pull-xs-right css:display='inherit'>
+						<ul .nav .navbar-nav .pull-xs-right>
 							<li .nav-item>
 								<a .nav-link .active route-to='/'> 'Home'
 							if !isLog
@@ -37,14 +37,14 @@ export tag App < Shared
 										' Settings'
 								<li .nav-item>
 									<a .nav-link route-to="/profile/"+encode(currentUser:username)> currentUser:username
-									<img .user-pic> 
-			<Home route="/">
-			<Login route="/login">
-			<Register route="/register">
-			<Article route="/article/:slug">
-			<Profile route="/profile/:username">
-			<Settings route="/settings">
-			<Editor route="/editor/:slug">
+									<img .user-pic src=currentUser:image> 
+			<Home route='/'>
+			<Login route='/login'>
+			<Register route='/register'>
+			<Article route='/article/:slug'>
+			<Profile route='/profile/:username'>
+			<Settings route='/settings'>
+			<Editor route='/editor/:slug'>
 			<footer>
 				<div .container>
 					<a route-to='/' .logo-font> "conduit"
