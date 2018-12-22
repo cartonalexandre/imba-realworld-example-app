@@ -1,39 +1,25 @@
 import {Page} from './page'
-import {ArticleModel} from '../models/article'
 import { loadResource, postResource, putResource } from './util'
 
 export tag Editor < Page
-	prop title
-	prop description
-	prop body
-	prop tags
 	prop currentArticle
+	prop tags
 	def load params
 		if params and params:slug and params:slug !== 'new'
 			var data = await loadResource("articles/" + params:slug)
 			@currentArticle = data:article
-			@title = @currentArticle:title
-			@description = @currentArticle:description
-			@body = @currentArticle:body
-			@tags = @currentArticle:tagList
+			@tags = @currentArticle:tagList.join(' ') or null
 			render
 	def update
-		if @currentArticle
-			var article = @currentArticle
-			article:title = @title or null
-			article:description = @description or null
-			article:body = @body or null
-			article:tagList = [@tags] or null
-			await putResource("articles/" + @currentArticle:slug, article, @headers)
+		@currentArticle:tagList = @tags.split(" ") or null
+		if @currentArticle and @currentArticle:slug
+			await putResource("articles/" + @currentArticle:slug, {"article": currentArticle}, @headers)
 		else
-			var article = ArticleModel.new
-			article.title = @title or null
-			article.description = @description or null
-			article.body = @body or null
-			article.tagList = [@tags] or null
-			await postResource("articles", article, @headers)
+			await postResource("articles", {"article": currentArticle}, @headers)
 		window:location:href = "/"
 		self
+	def mount
+		@currentArticle = {}
 	def render
 		<self>
 			<div .editor-page>
@@ -43,11 +29,11 @@ export tag Editor < Page
 							<form :submit.prevent.update>
 								<fieldset>
 									<fieldset .form-group>
-										<input[@title] type="text" .form-control .form-control-lg placeholder="Article Title">
+										<input[currentArticle:title] type="text" .form-control .form-control-lg placeholder="Article Title">
 									<fieldset .form-group>
-										<input[@description] type="text" .form-control placeholder="What's this article about?">
+										<input[currentArticle:description] type="text" .form-control placeholder="What's this article about?">
 									<fieldset .form-group>
-										<textarea[@body] .form-control rows="8" placeholder="Write your article (in markdown)">
+										<textarea[currentArticle:body] .form-control rows="8" placeholder="Write your article (in markdown)">
 									<fieldset .form-group>
 										<input[@tags] type="text" .form-control placeholder="Enter tags">
 									<button .btn .btn-lg .btn-primary .pull-xs-right type="submit"> "Publish Article"

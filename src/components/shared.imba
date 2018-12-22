@@ -13,3 +13,8 @@ export tag Shared
 				'Accept': 'application/json'
 				'Content-Type': 'application/json'
 			}
+	def isLog
+		return @currentUser
+
+	def isMine author
+		return isLog and @currentUser:username === author:username

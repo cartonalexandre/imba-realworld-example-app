@@ -4,26 +4,14 @@ import { loadResource, putResource } from './util'
 
 export tag Settings < Page
 	prop user
-	prop username
-	prop email
-	prop bio
-	prop image
-	prop password
 	def mount
+		@user = {}
+	def load
 		var data = await loadResource("user", @headers)
 		@user = data:user
-		@username = @user:username
-		@image = @user:image
-		@bio = @user:bio
-		@email = @user:email
 		render
 	def update
-		var user = User.new()
-		user.username = @username or null
-		user.email = @email or null
-		user.bio = @bio or null
-		user.image = @image or null
-		user = await putResource("user", user, @headers)
+		await putResource("user", {"user": @user}, @headers)
 		window:location:href = "/"
 		self
 	def logout
@@ -40,15 +28,15 @@ export tag Settings < Page
 							<form :submit.prevent.update>
 								<fieldset>
 									<fieldset .form-group>
-										<input[@image] .form-control type="text" placeholder="URL of profile picture">
+										<input[user:image] .form-control type="text" placeholder="URL of profile picture">
 									<fieldset .form-group>
-										<input[@username] .form-control .form-control-lg type="text" placeholder="Your Name">
+										<input[user:username] .form-control .form-control-lg type="text" placeholder="Your Name">
 									<fieldset .form-group>
-										<textarea[@bio] .form-control .form-control-lg rows="8" placeholder="Short bio about you">
+										<textarea[user:bio] .form-control .form-control-lg rows="8" placeholder="Short bio about you">
 									<fieldset .form-group>
-										<input[@email] .form-control .form-control-lg type="text" placeholder="Email">
+										<input[user:email] .form-control .form-control-lg type="text" placeholder="Email">
 									<fieldset .form-group>
-										<input[@password] .form-control .form-control-lg type="password" placeholder="Password">
+										<input[user:password] .form-control .form-control-lg type="password" placeholder="Password">
 									<button .btn .btn-lg .btn-primary .pull-xs-right type="submit"> "Update Settings"
 							<hr>
 							<button .btn .btn-outline-danger :click.logout> "Or click here to logout."

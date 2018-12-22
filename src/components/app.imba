@@ -21,7 +21,7 @@ export tag App < Shared
 						<ul .nav .navbar-nav .pull-xs-right css:display='inherit'>
 							<li .nav-item>
 								<a .nav-link .active route-to='/'> 'Home'
-							if !@currentUser
+							if !isLog
 								<li .nav-item>
 									<a .nav-link route-to='/login'> 'Sign in'
 								<li .nav-item>

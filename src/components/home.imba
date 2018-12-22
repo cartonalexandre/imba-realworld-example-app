@@ -27,7 +27,7 @@ export tag Home < Page
 	def render
 		<self.vbox>
 			<div .home-page>
-				if !@currentUser
+				if !isLog
 					<div .banner>
 						<div .container>
 							<h1 .logo-font> "conduit"
@@ -37,7 +37,7 @@ export tag Home < Page
 						<div .col-md-9>
 							<div .feed-toggle>
 								<ul .nav .nav-pills .outline-active>
-									if @currentUser
+									if isLog
 										<li .nav-item>
 											<a href="#" :click.selectFeed("your") .nav-link .active=(currentFeed == "your")> "Your Feed"
 									<li .nav-item>

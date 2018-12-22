@@ -39,7 +39,7 @@ export tag Article < Page
 							<div .info>
 								<a route-to="/profile/"+encode(article:author:username) .author> article:author:username
 								<span .date> formatDate article:createdAt
-							if !@currentUser or @currentUser:username !== article:author:username
+							if !isMine(article:author)
 								<button .btn .btn-sm .btn-outline-secondary>
 									<i .ion-plus-round>
 									"  "
@@ -74,7 +74,7 @@ export tag Article < Page
 							<div .info>
 								<a route-to="/profile/"+encode(article:author:username) .author> article:author:username
 								<span .date> formatDate article:createdAt
-							if !@currentUser or @currentUser:username !== article:author:username
+							if !isMine(article:author)
 								<button .btn .btn-sm .btn-outline-secondary>
 									<i .ion-plus-round>
 									"  "
@@ -97,7 +97,7 @@ export tag Article < Page
 									"Delete Article"
 					<div .row>
 						<div .col-xs-12 .col-md-8 .offset-md-2>
-							if @currentUser
+							if isLog
 								<div>
 									<form .card .comment-form :submit.prevent.postComment>
 										<div .card-block>
@@ -121,7 +121,7 @@ export tag Article < Page
 										"  "
 										<a .comment-author href=""> comment:author:username
 										<span .date-posted> formatDate comment:createdAt
-										if @currentUser and @currentUser:username === comment:author:username
+										if isMine(comment:author)
 											<span .mod-options>
 												<i .ion-trash-a :click.deleteComment(comment)>
 							

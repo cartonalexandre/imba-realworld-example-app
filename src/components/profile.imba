@@ -4,13 +4,11 @@ import { loadResource, formatDate } from './util'
 
 export tag Profile < Page
 	prop profile
-	let username
 	def load params
-		username = params:username
 		var data = await loadResource "profiles/" + params:username
 		@profile = data:profile
 	def articles
-		<Articles src="articles" params=[{"author": username}]>
+		<Articles src="articles" params=[{"author": @profile:username}]>
 	def render
 		<self>
 			<div .profile-page>
@@ -21,12 +19,12 @@ export tag Profile < Page
 								<img .user-img src=profile:image>
 								<h4> profile:username
 								<p> profile:bio
-								if !@currentUser or @currentUser:username !== username
+								if !isMine(profile)
 									<button .btn .btn-sm .action-btn .btn-outline-secondary>
 										<i .ion-plus-round>
 										"   "
 										"Follow " + profile:username
-								if @currentUser and @currentUser:username === username
+								else
 									<a .btn .btn-sm .btn-outline-secondary .action-btn route-to='/settings'>
 										<i .ion-gear-a>
 										"   "
