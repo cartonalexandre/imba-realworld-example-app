@@ -9,7 +9,7 @@ export tag Follow < Shared
 		if @profile:following
 			method = "delete"
 		api("profiles/" + @profile:username + "/follow", method, null, @headers).then do |data|
-			# nothing
+			@profile:following = !@profile:following
 		.catch do |result|
 			console.log result
 	def render

@@ -3,8 +3,9 @@ import {User} from '../models/user'
 import { formatDate, encode, api } from './util'
 
 export tag Register < Page
+	let errors
 	def register
-		var user = User.new();
+		let user = User.new();
 		user.username = @username
 		user.email = @email
 		user.password = @password
@@ -13,7 +14,7 @@ export tag Register < Page
 			window:localStorage.setItem('user-conduit',JSON.stringify(user:user)) if user:user != @user
 			window:location:href = "/"
 		.catch do |result|
-			console.log result
+			errors = result:errors
 	def render
 		<self>
 			<div .container .page>
@@ -22,6 +23,11 @@ export tag Register < Page
 						<h1 .text-xs-center> "Sign up"
 						<p .text-xs-center>
 							<a route-to='/login'> "Have an account?"
+						if errors
+							<ul .error-messages>
+								for key in Object.keys(errors)
+									<li> for val in Object.values(errors[key])
+										key + " " + val
 						<form :submit.prevent.register>
 							<fieldset>
 								<fieldset .form-group>
