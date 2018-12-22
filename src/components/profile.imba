@@ -1,14 +1,27 @@
 import {Page} from './page'
 import {Articles} from './articles'
+import {Follow} from './follow'
 import { loadResource, formatDate } from './util'
 
 export tag Profile < Page
 	prop profile
+	prop currentFeed
+	def mount
+		currentFeed = 'my'
 	def load params
 		var data = await loadResource "profiles/" + params:username
 		@profile = data:profile
+	def selectFeed feed
+		@currentFeed = feed
 	def articles
-		<Articles src="articles" params=[{"author": @profile:username}]>
+		let params, headers
+		if @currentFeed == "my"
+			params =[{"author": @profile:username}]
+		if @currentFeed == "favorited"
+			params =[{"favorited": @profile:username}]
+		<Articles src="articles" params=params>
+	def follow
+		return <Follow profile=profile>
 	def render
 		<self>
 			<div .profile-page>
@@ -20,10 +33,7 @@ export tag Profile < Page
 								<h4> profile:username
 								<p> profile:bio
 								if !isMine(profile)
-									<button .btn .btn-sm .action-btn .btn-outline-secondary>
-										<i .ion-plus-round>
-										"   "
-										"Follow " + profile:username
+									follow
 								else
 									<a .btn .btn-sm .btn-outline-secondary .action-btn route-to='/settings'>
 										<i .ion-gear-a>
@@ -35,7 +45,7 @@ export tag Profile < Page
 							<div .articles-toggle>
 								<ul .nav .nav-pills .outline-active>
 									<li .nav-item>
-										<a .nav-link .active> "My Posts"
+										<button .nav-link :click.selectFeed("my") .active=(currentFeed === 'my')> "My Posts"
 									<li .nav-item>
-										<a .nav-link> "Favorited Posts"
+										<button .nav-link :click.selectFeed("favorited") .active=(currentFeed === 'favorited')> "Favorited Posts"
 							articles

@@ -6,6 +6,7 @@ export tag Settings < Page
 	prop user
 	def mount
 		@user = {}
+		load
 	def load
 		var data = await loadResource("user", @headers)
 		@user = data:user

@@ -25,7 +25,7 @@ export tag Home < Page
 	def mount
 		@currentFeed = "global"
 	def render
-		<self.vbox>
+		<self>
 			<div .home-page>
 				if !isLog
 					<div .banner>
@@ -39,15 +39,15 @@ export tag Home < Page
 								<ul .nav .nav-pills .outline-active>
 									if isLog
 										<li .nav-item>
-											<a href="#" :click.selectFeed("your") .nav-link .active=(currentFeed == "your")> "Your Feed"
+											<button :click.selectFeed("your") .nav-link .active=(currentFeed == "your")> "Your Feed"
 									<li .nav-item>
-										<a href="#" :click.selectFeed("global") .nav-link .active=(currentFeed == "global")> "Global Feed"
+										<button :click.selectFeed("global") .nav-link .active=(currentFeed == "global")> "Global Feed"
 									if currentFeed == "tag"
 										<li .nav-item>
-											<a href="#" .nav-link .active> "#" + currentTag
+											<button .nav-link .active> "#" + currentTag
 							articles
 						<div .col-md-3>
 							<div .sidebar>
 								<p> "Popular Tags"
 								<div .tag-list> for item in tags
-									<a href="#" .tag-default .tag-pill :click.selectFeed("tag", item)> item										
+									<a href="#" .tag-default .tag-pill :click.selectFeed("tag", item)> item

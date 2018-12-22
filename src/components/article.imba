@@ -2,6 +2,8 @@ import {Page} from './page'
 import {Login} from './login'
 import {Register} from './register'
 import {Comment} from '../models/comment'
+import {Follow} from './follow'
+import {Favorite} from './favorite'
 import { loadResource, formatDate, encode, postResource, deleteResource } from './util'
 
 export tag Article < Page
@@ -27,6 +29,22 @@ export tag Article < Page
 		await deleteResource("articles/" + @article:slug, @headers)
 		window:location:href = "/"
 		self
+	def followAndFavorite
+		return
+			<Follow embedded=true profile=@article:author>
+			"   "
+			<Favorite large=true article=@article>
+	def editAndDeleteArticle
+		return
+			<a href route-to="/editor/"+encode(@article:slug) .btn .btn-outline-secondary .btn-sm>
+				<i .ion-edit>
+				"  "
+				"Edit Article"
+			"     "
+			<button :click.deleteArticle .btn .btn-outline-danger .btn-sm>
+				<i .ion-trash-a>
+				"  "
+				"Delete Article"
 	def render
 		<self>
 			<div .article-page>
@@ -40,26 +58,9 @@ export tag Article < Page
 								<a route-to="/profile/"+encode(article:author:username) .author> article:author:username
 								<span .date> formatDate article:createdAt
 							if !isMine(article:author)
-								<button .btn .btn-sm .btn-outline-secondary>
-									<i .ion-plus-round>
-									"  "
-									"Follow " + article:author:username
-								"     "
-								<button .btn .btn-sm .btn-outline-primary>
-									<i .ion-heart>
-									"  "
-									"Favorite Post "
-									<span .counter> "(" + article:favoritesCount + ")"
+								followAndFavorite
 							else
-								<a href route-to="/editor/"+encode(article:slug) .btn .btn-outline-secondary .btn-sm>
-									<i .ion-edit>
-									"  "
-									"Edit Article"
-								"     "
-								<button :click.deleteArticle .btn .btn-outline-danger .btn-sm>
-									<i .ion-trash-a>
-									"  "
-									"Delete Article"
+								editAndDeleteArticle
 				<div .container .page>
 					<div .row .article-content>
 						<div .col-md-12>
@@ -75,26 +76,9 @@ export tag Article < Page
 								<a route-to="/profile/"+encode(article:author:username) .author> article:author:username
 								<span .date> formatDate article:createdAt
 							if !isMine(article:author)
-								<button .btn .btn-sm .btn-outline-secondary>
-									<i .ion-plus-round>
-									"  "
-									"Follow " + article:author:username
-								"     "
-								<button .btn .btn-sm .btn-outline-primary>
-									<i .ion-heart>
-									"  "
-									"Favorite Post "
-									<span .counter> "(" + article:favoritesCount + ")"
+								followAndFavorite
 							else
-								<a href route-to="/editor/"+encode(article:slug) .btn .btn-outline-secondary .btn-sm>
-									<i .ion-edit>
-									"  "
-									"Edit Article"
-								"     "
-								<button :click.deleteArticle .btn .btn-outline-danger .btn-sm>
-									<i .ion-trash-a>
-									"  "
-									"Delete Article"
+								editAndDeleteArticle
 					<div .row>
 						<div .col-xs-12 .col-md-8 .offset-md-2>
 							if isLog

@@ -1,9 +1,10 @@
 import {Page} from './page'
 import {Login} from './login'
 import {Register} from './register'
-import { loadResource, formatDate, encode } from './util'
+import {Favorite} from './favorite'
+import { loadResource, formatDate, encode, postResource, deleteResource } from './util'
 
-export tag Articles
+export tag Articles < Page
 	prop articles
 	prop src
 	prop currentTag
@@ -31,7 +32,10 @@ export tag Articles
 	def changePage expectedPage
 		offset = (expectedPage - 1) * limit
 		currentPage = expectedPage
+	def favorite article
+		return <Favorite article=article>
 	def setup
+		super
 		loadArticles
 	def render
 		<self>
@@ -46,10 +50,7 @@ export tag Articles
 							<span .date>
 								formatDate article:createdAt
 						<div .pull-xs-right>
-							<button .btn .btn-sm .btn-outline-primary>
-								<i .ion-heart>
-								" "
-								<span> article:favoritesCount
+							favorite article
 					<a .preview-link route-to="/article/"+article:slug>
 						<h1> article:title
 						<p> article:description
@@ -59,5 +60,5 @@ export tag Articles
 			<nav> if articles and pages:length > 1
 				<ul .pagination> for page in pages
 					<li .page-item .active=(currentPage == page)>
-						<a .page-link :click.changePage(page)> page
+						<a css:cursor='pointer' .page-link :click.changePage(page)> page
 							
