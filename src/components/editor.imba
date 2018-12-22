@@ -17,7 +17,6 @@ export tag Editor < Page
 		else
 			await postResource("articles", {"article": currentArticle}, @headers)
 		window:location:href = "/"
-		self
 	def mount
 		@currentArticle = {}
 	def render

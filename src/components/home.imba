@@ -4,7 +4,7 @@ import { loadResource, formatDate } from './util'
 
 export tag Home < Page
 	prop tags
-	prop currentTag
+	let currentTag
 	prop currentFeed
 	def load
 		var data = await loadResource "tags"
@@ -12,7 +12,7 @@ export tag Home < Page
 	def selectFeed current, param
 		@currentFeed = current
 		if (current == "tag")
-			@currentTag = param
+			currentTag = param
 	def articles
 		let params, headers
 		let src = "articles"

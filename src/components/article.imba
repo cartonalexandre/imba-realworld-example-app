@@ -28,7 +28,6 @@ export tag Article < Page
 	def deleteArticle
 		await deleteResource("articles/" + @article:slug, @headers)
 		window:location:href = "/"
-		self
 	def followAndFavorite
 		return
 			<Follow embedded=true profile=@article:author>

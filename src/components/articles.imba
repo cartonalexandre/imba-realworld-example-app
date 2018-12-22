@@ -1,27 +1,28 @@
-import {Page} from './page'
+import {Shared} from './shared'
 import {Login} from './login'
 import {Register} from './register'
 import {Favorite} from './favorite'
 import { loadResource, formatDate, encode, postResource, deleteResource } from './util'
 
-export tag Articles < Page
-	prop articles
+export tag Articles < Shared
 	prop src
-	prop currentTag
 	prop params
 	prop headers
+
+	let articles
+	let articlesCount
 	let limit = 10
-	let offset
+	let offset = 0
 	let pages = []
 	let currentPage = 1
 	def loadArticles
-		let resource = @src + "?limit=" + limit + "&offset=" + offset or 0
+		let resource = @src + "?limit=" + limit + "&offset=" + offset
 		for param in params
 			if Object.values(param)[0] != undefined
 				resource += "&" + Object.keys(param)[0] + "=" + Object.values(param)[0]
 		var data = await loadResource(resource, @headers)
-		@articles = data:articles
-		@articlesCount = data:articlesCount
+		articles = data:articles
+		articlesCount = data:articlesCount
 		pages = []
 		var i = 0
 		while true

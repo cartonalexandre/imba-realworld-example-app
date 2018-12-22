@@ -4,21 +4,18 @@ import { loadResource, putResource } from './util'
 
 export tag Settings < Page
 	prop user
-	def mount
-		@user = {}
-		load
+	@user = {}
 	def load
 		var data = await loadResource("user", @headers)
 		@user = data:user
 		render
 	def update
-		await putResource("user", {"user": @user}, @headers)
+		var data = await putResource("user", {"user": @user}, @headers)
+		@user = data:user
 		window:location:href = "/"
-		self
 	def logout
 		window:localStorage.removeItem('user-conduit')
 		window:location:href = "/"
-		self
 	def render
 		<self>
 			<div .settings-page>

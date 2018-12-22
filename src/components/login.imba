@@ -10,7 +10,6 @@ export tag Login < Page
 		user = await postResource("users/login", user, @headers)
 		window:localStorage.setItem('user-conduit', JSON.stringify(user:user)) if user:user != @user
 		window:location:href = "/"
-		self
 	def render
 		<self>
 			<div .container .page>
