@@ -2,7 +2,7 @@ import {Shared} from './shared'
 import {Login} from './login'
 import {Register} from './register'
 import {Favorite} from './favorite'
-import { loadResource, formatDate, encode, postResource, deleteResource } from './util'
+import { formatDate, encode, api } from './util'
 
 export tag Articles < Shared
 	prop src
@@ -20,16 +20,19 @@ export tag Articles < Shared
 		for param in params
 			if Object.values(param)[0] != undefined
 				resource += "&" + Object.keys(param)[0] + "=" + Object.values(param)[0]
-		var data = await loadResource(resource, @headers)
-		articles = data:articles
-		articlesCount = data:articlesCount
-		pages = []
-		var i = 0
-		while true
-			i++
-			pages.push(i)
-			break if i >= (data:articlesCount / limit)
-		render
+		
+		api(resource, "get", null, @headers).then do |result|
+			articles = result:articles
+			articlesCount = result:articlesCount
+			pages = []
+			var i = 0
+			while true
+				i++
+				pages.push(i)
+				break if i >= (result:articlesCount / limit)
+			render
+		.catch do |result|
+			console.log result
 	def changePage expectedPage
 		offset = (expectedPage - 1) * limit
 		currentPage = expectedPage

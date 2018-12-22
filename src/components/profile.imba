@@ -1,7 +1,7 @@
 import {Page} from './page'
 import {Articles} from './articles'
 import {Follow} from './follow'
-import { loadResource, formatDate } from './util'
+import { formatDate, api } from './util'
 
 export tag Profile < Page
 	prop profile
@@ -9,8 +9,10 @@ export tag Profile < Page
 	def mount
 		currentFeed = 'my'
 	def load params
-		var data = await loadResource "profiles/" + params:username
-		@profile = data:profile
+		api("profiles/" + params:username, "get", null, @headers).then do |data|
+			@profile = data:profile
+		.catch do |result|
+			console.log result
 	def selectFeed feed
 		@currentFeed = feed
 	def articles

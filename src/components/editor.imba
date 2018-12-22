@@ -1,5 +1,5 @@
 import {Page} from './page'
-import { loadResource, postResource, putResource } from './util'
+import { api } from './util'
 
 export tag Editor < Page
 	prop currentArticle
@@ -7,17 +7,25 @@ export tag Editor < Page
 	def load params
 		@currentArticle = {}
 		if params and params:slug and params:slug !== 'new'
-			var data = await loadResource("articles/" + params:slug)
-			@currentArticle = data:article
-			tags = @currentArticle:tagList.join(' ') or null
-			render
+			api("articles/" + params:slug, "get", null, @headers).then do |data|
+				@currentArticle = data:article
+				tags = @currentArticle:tagList.join(' ') or null
+				render
+			.catch do |result|
+				console.log result
 	def update
 		@currentArticle:tagList = @tags?.split(" ") or null
+		let resource, method
 		if @currentArticle and @currentArticle:slug
-			await putResource("articles/" + @currentArticle:slug, {"article": @currentArticle}, @headers)
+			resource = "articles/" + @currentArticle:slug
+			method = "put"
 		else
-			await postResource("articles", {"article": @currentArticle}, @headers)
-		window:location:href = "/"
+			resource = "articles"
+			method = "post"
+		api(resource, method, {"article": @currentArticle}, @headers).then do |data|
+			window:location:href = "/"
+		.catch do |result|
+			console.log result
 	def render
 		<self>
 			<div .editor-page>

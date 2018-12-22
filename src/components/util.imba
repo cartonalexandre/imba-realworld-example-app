@@ -1,40 +1,40 @@
 var URL_ENDPOINT="https://conduit.productionready.io/api/"
 
-export def loadResource resource, headers
-	var res = await window.fetch(URL_ENDPOINT+resource, {
+def parseJSON response
+	return Promise.new(
+		do |resolve|
+			response.json().then(
+				do |json|
+					resolve({
+						status: response:status,
+						ok: response:ok,
+						json: json
+					})
+			)
+	)
+
+export def api url, method, data, headers
+	var options = {
+		method: method,
 		headers: headers
-	})
-	return res.json
+	}
+	if method !== 'get' and data
+		options:body = JSON.stringify(data)
 
-export def loadAsyncResource resource
-	window.fetch(URL_ENDPOINT+resource).then do |res|
-		return res.json
-
-export def postResource resource, data, headers
-	var res = await window.fetch(URL_ENDPOINT+resource, {
-				method: 'post',
-				headers: headers,
-				body: JSON.stringify(data)
-			}
+	return Promise.new do |resolve, reject|
+		window.fetch(URL_ENDPOINT  + url, options)
+		.then( do |response|
+			parseJSON response
+		).then( do |response|
+			if response:ok
+				return resolve(response:json)
+			return reject(response:json)
 		)
-	return res.json
-
-export def putResource resource, data, headers
-	var res = await window.fetch(URL_ENDPOINT+resource, {
-				method: 'put',
-				headers: headers,
-				body: JSON.stringify(data)
-			}
+		.catch( do |error|
+			reject({
+				networkError: error:message,
+			})
 		)
-	return res.json
-
-export def deleteResource resource, headers
-	var res = await window.fetch(URL_ENDPOINT+resource, {
-				method: 'delete',
-				headers: headers
-			}
-		)
-	return res.json
 
 export def formatDate inputDate
 	var options = { year: 'numeric', month: 'long', day: 'numeric' };

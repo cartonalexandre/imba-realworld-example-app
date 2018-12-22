@@ -1,15 +1,19 @@
 import {Page} from './page'
 import {User} from '../models/user'
-import { loadResource, formatDate, encode, postResource } from './util'
+import { api } from './util'
 
 export tag Login < Page
 	def login
 		var user = User.new();
 		user.email = @email
 		user.password = @password
-		user = await postResource("users/login", user, @headers)
-		window:localStorage.setItem('user-conduit', JSON.stringify(user:user)) if user:user != @user
-		window:location:href = "/"
+		api("users/login", 'post', user, @headers)
+			.then do |result|
+				user = result
+				window:localStorage.setItem('user-conduit', JSON.stringify(user:user)) if user:user != @user
+				window:location:href = "/"
+			.catch do |result|
+				console.log result
 	def render
 		<self>
 			<div .container .page>

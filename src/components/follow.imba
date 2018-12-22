@@ -1,14 +1,17 @@
 import {Shared} from './shared'
-import { postResource, deleteResource } from './util'
+import { api } from './util'
 
 export tag Follow < Shared
 	prop profile
 	prop embedded
 	def follow
+		let method = "post"
 		if @profile:following
-			await deleteResource("profiles/" + @profile:username + "/follow", @headers)
-		else
-			await postResource("profiles/" + @profile:username + "/follow", null, @headers)
+			method = "delete"
+		api("profiles/" + @profile:username + "/follow", method, null, @headers).then do |data|
+			# nothing
+		.catch do |result|
+			console.log result
 	def render
 		var css
 		if embedded

@@ -1,14 +1,16 @@
 import {Articles} from './articles'
 import {Page} from './page'
-import { loadResource, formatDate } from './util'
+import { formatDate, api } from './util'
 
 export tag Home < Page
 	prop tags
 	let currentTag
 	prop currentFeed
 	def load
-		var data = await loadResource "tags"
-		@tags = data:tags
+		api("tags", "get", null, @headers).then do |data|
+			@tags = data:tags
+		.catch do |result|
+			console.log result
 	def selectFeed current, param
 		@currentFeed = current
 		if (current == "tag")

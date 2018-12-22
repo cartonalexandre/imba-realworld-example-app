@@ -1,18 +1,24 @@
 import {Page} from './page'
 import {User} from '../models/user'
-import { loadResource, putResource } from './util'
+import { api } from './util'
 
 export tag Settings < Page
 	prop user
 	@user = {}
 	def load
-		var data = await loadResource("user", @headers)
-		@user = data:user
-		render
+		api("user", "get", null, @headers)
+			.then do |data|
+				@user = data:user
+				render
+			.catch do |result|
+				console.log result
 	def update
-		var data = await putResource("user", {"user": @user}, @headers)
-		@user = data:user
-		window:location:href = "/"
+		api("user", "put", {"user": @user}, @headers)
+			.then do |data|
+				@user = data:user
+				window:location:href = "/"
+			.catch do |result|
+				console.log result
 	def logout
 		window:localStorage.removeItem('user-conduit')
 		window:location:href = "/"

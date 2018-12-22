@@ -4,30 +4,42 @@ import {Register} from './register'
 import {Comment} from '../models/comment'
 import {Follow} from './follow'
 import {Favorite} from './favorite'
-import { loadResource, formatDate, encode, postResource, deleteResource } from './util'
+import { formatDate, encode, api } from './util'
 
 export tag Article < Page
 	prop article
 	prop comments
 	prop currentComment
 	def loadComments
-		var data = await loadResource "articles/" + params:slug + "/comments"
-		@comments = data:comments
+		api("articles/" + params:slug + "/comments", "get", null, @headers).then do |data|
+			@comments = data:comments
+			render
+		.catch do |result|
+			console.log result
 	def load params
-		var data = await loadResource "articles/" + params:slug
-		@article = data:article
+		api("articles/" + params:slug, "get", null, @headers).then do |data|
+			@article = data:article
+			render
+		.catch do |result|
+			console.log result
 		loadComments
 	def postComment
 		var comment = Comment.new();
 		comment.body = @currentComment
-		await postResource("articles/" + params:slug + "/comments", comment, @headers)
-		loadComments
+		api("articles/" + params:slug + "/comments", "post", comment, @headers).then do |data|
+			loadComments
+		.catch do |result|
+			console.log result
 	def deleteComment comment
-		await deleteResource("articles/" + params:slug + "/comments/" + comment:id, @headers)
-		loadComments
+		api("articles/" + params:slug + "/comments/" + comment:id, "delete", comment, @headers).then do |data|
+			loadComments
+		.catch do |result|
+			console.log result
 	def deleteArticle
-		await deleteResource("articles/" + @article:slug, @headers)
-		window:location:href = "/"
+		api("articles/" + @article:slug, "delete", null, @headers).then do |data|
+			window:location:href = "/"
+		.catch do |result|
+			console.log result
 	def followAndFavorite
 		return
 			<Follow embedded=true profile=@article:author>

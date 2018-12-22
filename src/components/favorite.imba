@@ -1,14 +1,17 @@
 import {Shared} from './shared'
-import { postResource, deleteResource } from './util'
+import { api } from './util'
 
 export tag Favorite < Shared
 	prop article
 	prop large
 	def favorite
+		let method = "post"
 		if @article:favorited
-			await deleteResource("articles/" + @article:slug + "/favorite", @headers)
-		else
-			await postResource("articles/" + @article:slug + "/favorite", null, @headers)
+			method = "delete"
+		api("articles/" + @article:slug + "/favorite", method, null, @headers).then do |data|
+			# nothing
+		.catch do |result|
+			console.log result
 	def render
 		<self css:display='inline-block'>
 			<button .btn .btn-sm .btn-outline-primary :click.favorite(article) .active=(article:favorited)>
