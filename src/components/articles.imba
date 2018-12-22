@@ -58,6 +58,9 @@ export tag Articles < Shared
 						<span> "Read more..."
 						<ul .tag-list> for item in article:tagList
 							<li .tag-default .tag-pill .tag-outline> item
+			<div> if articlesCount == 0
+				<br>
+				"No articles yet"
 			<nav> if articles and pages:length > 1
 				<ul .pagination> for page in pages
 					<li .page-item .active=(currentPage == page)>
