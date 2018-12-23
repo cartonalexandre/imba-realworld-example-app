@@ -20,7 +20,7 @@ export tag App < Shared
 						<a .navbar-brand route-to='/'> 'conduit'
 						<ul .nav .navbar-nav .pull-xs-right>
 							<li .nav-item>
-								<a .nav-link .active route-to='/'> 'Home'
+								<a .nav-link route-to='/'> 'Home'
 							if !isLog
 								<li .nav-item>
 									<a .nav-link route-to='/login'> 'Sign in'

@@ -10,6 +10,9 @@ module.exports = {
 	resolve: {
 		extensions: [".imba",".js", ".json"]
 	},
+	devServer: {
+        historyApiFallback: true,
+    },
 	entry: "./src/index.imba",
-	output: {  path: __dirname + '/dist', filename: "index.js" }
+	output: {  path: __dirname + '/dist', filename: "index.js", publicPath: '/' }
 }

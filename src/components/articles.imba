@@ -20,7 +20,6 @@ export tag Articles < Shared
 		for param in params
 			if Object.values(param)[0] != undefined
 				resource += "&" + Object.keys(param)[0] + "=" + Object.values(param)[0]
-		
 		api(resource, "get", null, @headers).then do |result|
 			articles = result:articles
 			articlesCount = result:articlesCount
