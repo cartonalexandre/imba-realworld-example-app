@@ -5,6 +5,9 @@ export tag Favorite < Shared
 	prop article
 	prop large
 	def favorite
+		if !isLog
+			window:location:href = "/login"
+			return
 		let method = "post"
 		if @article:favorited
 			method = "delete"

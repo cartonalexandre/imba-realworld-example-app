@@ -20,6 +20,7 @@ export tag Settings < Page
 			.catch do |result|
 				console.log result
 	def logout
+		delete @currentUser
 		window:localStorage.removeItem('user-conduit')
 		window:location:href = "/"
 	def render

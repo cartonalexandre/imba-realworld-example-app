@@ -34,13 +34,13 @@ export tag Profile < Page
 								<img .user-img src=profile:image>
 								<h4> profile:username
 								<p> profile:bio
-								if !isMine(profile)
-									follow
-								else
+								if isMine(profile)
 									<a .btn .btn-sm .btn-outline-secondary .action-btn route-to='/settings'>
 										<i .ion-gear-a>
 										"   "
 										"Edit Profile Settings"
+								else
+									follow
 				<div .container>
 					<div .row>
 						<div .col-xs-12 .col-md-10 .offset-md-1>

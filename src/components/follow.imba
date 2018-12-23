@@ -5,6 +5,9 @@ export tag Follow < Shared
 	prop profile
 	prop embedded
 	def follow
+		if !isLog
+			window:location:href = "/login"
+			return
 		let method = "post"
 		if @profile:following
 			method = "delete"
