@@ -36,8 +36,10 @@ export tag App < Shared
 										<i .ion-gear-a>
 										' Settings'
 								<li .nav-item>
-									<a .nav-link route-to="/profile/"+encode(currentUser:username)> currentUser:username
-									<img .user-pic src=currentUser:image> 
+									<a .nav-link route-to="/profile/"+encode(currentUser:username)>
+										<img .user-pic width="50" src=currentUser:image> 
+										currentUser:username
+									
 			<Home route='/'>
 			<Login route='/login'>
 			<Register route='/register'>
