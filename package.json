@@ -13,7 +13,8 @@
   "scripts": {
     "dev": "webpack-dev-server --content-base dist/",
     "build": "webpack",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "repository": {
     "type": "git",
