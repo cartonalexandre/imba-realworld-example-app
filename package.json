@@ -13,8 +13,9 @@
   "scripts": {
     "dev": "webpack-dev-server --content-base dist/",
     "build": "webpack",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cy:open": "cypress open",
+    "cy:run" : "cypress run",
+    "test": "start-server-and-test dev http://localhost:8080 cy:run"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "webpack-dev-server": "^2.11.1"
   },
   "devDependencies": {
-    "cypress": "^3.1.4"
+    "cypress": "^3.1.4",
+    "start-server-and-test": "^1.7.11"
   }
 }
