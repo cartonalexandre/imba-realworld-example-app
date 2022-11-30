@@ -1,4 +1,4 @@
-var URL_ENDPOINT="https://conduit.productionready.io/api/"
+var URL_ENDPOINT="https://api.realworld.io/api/"
 
 def parseJSON response
 	return Promise.new(
